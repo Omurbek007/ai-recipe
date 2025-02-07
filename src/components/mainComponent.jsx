@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CloudRecipe from "./recipe.jsx";
 import {getRecipeFromMistral} from "../ai.js"
 
@@ -7,6 +7,13 @@ export default function Main() {
     const [ingredients, setCount] = React.useState(["Ground beef", "Tomato sauce", "Onion", "Garlic", "Oregano", "Salt", "Pepper", "Pasta"]); 
     const [recipe, setRecipe] = React.useState("");
     const [loading, setLoading] = React.useState(false)
+    const recipeSection = React.useRef(null)
+
+    useEffect(() => {
+        if (recipe && recipeSection.current !== null) {
+            recipeSection.current.scrollIntoView({behavior: "smooth"});
+        }
+    }, [recipe])
 
 
 
@@ -61,7 +68,7 @@ export default function Main() {
         </section>}
         {/*section*/}
         {loading && <div className="spinner"></div>}
-            {recipe && <CloudRecipe recipe={recipe}/>}
+            {recipe && <CloudRecipe recipe={recipe} ref={recipeSection}/>}
         </main>
     )
 }
